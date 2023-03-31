@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: "5%",
     paddingVertical:"15%",
-    backgroundColor:"#E8F5E9"
+    backgroundColor:"#dcdcdc"
   },
 
 });

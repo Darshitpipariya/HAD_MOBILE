@@ -1,23 +1,29 @@
 import { View, Text, StyleSheet, ScrollView, TextInput } from 'react-native'
-import React, {  useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Butten from '../Component/Butten';
 import Fields from '../Component/Fields';
 import PendingStatusSubmit from '../Component/modals/PendingStatusSubmit';
 import SubmitOtpModal from '../Component/modals/SubmitOtpModal';
 import { Ionicons } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native'
+import { AuthContext } from '../context/AuthContext';
+import { print } from '../util/printPrescription';
 
 const FollowUpForm = ({ route }) => {
     // navigator
     const navigator = useNavigation();
-    const fullname = route.params.followUp.fname + " " + route.params.followUp.lname;
-    const address = route.params.followUp.street1 + "\n" + route.params.followUp.city + ", " + route.params.followUp.district;
     const [observation, setObservation] = useState('');
     const [fieldList, setFieldList] = useState([]);
     const [fieldValueList, setFieldValueList] = useState([]);
     const [pendingModalVisible, setpendingModalVisible] = useState(false);
     const [otpModalVisible, setotpModalVisible] = useState(false);
+    const { userinfo } = useContext(AuthContext);
+    const fullname = route.params.followUp.fname + " " + route.params.followUp.lname;
+    const address = route.params.followUp.street1 + "\n" + route.params.followUp.city + ", " + route.params.followUp.district;
+    const gender = route.params.followUp.gender == 'M' ? "Male" : "Female"
+    const healthWorkerName = userinfo.fname + " " + userinfo.lname;
 
     useEffect(() => {
         getFieldList();
@@ -75,14 +81,6 @@ const FollowUpForm = ({ route }) => {
         }
     }
 
-    // async function printPrescription() {
-    //     const today = new Date();
-    //     const Todaydate = today.getDate() + "-" + (today.getMonth() > 10 ? (today.getMonth() + 1) : "0" + (today.getMonth() + 1)) + "-" + today.getFullYear();
-
-    //     const text = `\n\tDate : ${Todaydate}\n\n\tName : ${fullname}\n\n\tPrescription : ${route.params.followUp.prescription}\n\n`;
-    //     console.log("Prescription\n"+text);
-    //     await saveFile(text);
-    // }
 
     function openOrClosePedingModal(flag) {
         setpendingModalVisible(flag);
@@ -91,17 +89,27 @@ const FollowUpForm = ({ route }) => {
     function openOrCloseSubmitOTPModal(flag) {
         setotpModalVisible(flag);
     }
+
+    function printPdf() {
+        print(fullname, gender, route.params.followUp.prescription, healthWorkerName);
+    }
     return (
         <View style={styles.mainContainer}>
             <PendingStatusSubmit openOrCloseModal={openOrClosePedingModal} followUp={route.params.followUp} visible={pendingModalVisible} />
             <SubmitOtpModal openOrCloseModal={openOrCloseSubmitOTPModal} followUp={route.params.followUp} visible={otpModalVisible} />
 
             <ScrollView>
-                <TouchableOpacity style={styles.backArrowContainer} onPress={() => {
-                    navigator.goBack();
-                }}>
-                    <Ionicons name="arrow-back-circle-sharp" size={29} color="black" />
-                </TouchableOpacity>
+                <View style={styles.topContainer}>
+                    <TouchableOpacity style={styles.backArrowContainer} onPress={() => {
+                        navigator.goBack();
+                    }}>
+                        <Ionicons name="arrow-back-circle-sharp" size={29} color="black" />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{ margin: 5, alignItems: "center" }} onPress={() => { printPdf() }}>
+                        <Entypo name="print" size={24} color="black" />
+                        <Text style={styles.printLable}>prescription</Text>
+                    </TouchableOpacity>
+                </View>
                 <View>
                     <View style={styles.formContainer}>
                         <View style={styles.fieldContainer}>
@@ -110,6 +118,14 @@ const FollowUpForm = ({ route }) => {
                             </View>
                             <View>
                                 <Text >{fullname}</Text>
+                            </View>
+                        </View>
+                        <View style={styles.fieldContainer}>
+                            <View style={styles.lableContainer}>
+                                <Text style={styles.textLable}>Gender</Text>
+                            </View>
+                            <View>
+                                <Text >{gender}</Text>
                             </View>
                         </View>
                         <View style={styles.fieldContainer}>
@@ -179,9 +195,12 @@ const styles = StyleSheet.create({
         padding: 10,
         backgroundColor: "#efefef",
     },
+    topContainer: {
+        flexDirection: 'row',
+        justifyContent: "space-between"
+    },
     backArrowContainer: {
         margin: 5
-
     },
     lableContainer: {
         width: "30%",
@@ -190,6 +209,11 @@ const styles = StyleSheet.create({
         // Lable Style
         fontWeight: "600",
         fontSize: 14,
+    },
+    printLable: {
+        color: "#1976D2",
+        padding: 5,
+        marginRight: 3,
     },
     formContainer: {
         marginHorizontal: 5,

@@ -23,8 +23,8 @@ const styles = StyleSheet.create({
         paddingVertical: 2,
         borderRadius: 5,
         borderWidth: 2,
-        borderColor: "#DCEDC8",
-        backgroundColor: "#F1F8E9",
+        borderColor: "#f0ffff",
+        backgroundColor: "#f0ffff",
         elevation: 1,
     },
     fieldLableContainer: {
