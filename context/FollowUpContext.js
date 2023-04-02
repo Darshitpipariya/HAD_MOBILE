@@ -39,8 +39,8 @@ const FollowUpProvider = ({ children }) => {
 
     async function getTodaysFollowUpsfromDatabase() {
         const today = new Date();
-        const Todaydate = today.getFullYear() + "-" + (today.getMonth() > 10 ? (today.getMonth() + 1) : "0" + (today.getMonth() + 1)) + "-" + today.getDate();
-        console.log(Todaydate);
+        const Todaydate = today.getFullYear() + "-" + (today.getMonth() > 10 ? (today.getMonth() + 1) : "0" + (today.getMonth() + 1)) + "-" + ((today.getDate() < 10) ? ("0" + today.getDate()) : today.getDate());
+        console.log("TodayDate from TodayFollowups "+Todaydate);
         db.transaction((tx) => {
             const Query = "SELECT * FROM " + tableName + " WHERE dateOfFollowUp = ? AND status= ? AND mystatus = ? ";
             const res = tx.executeSql(
@@ -64,8 +64,8 @@ const FollowUpProvider = ({ children }) => {
     }
     async function getBackLogFollowUpsfromDatabase() {
         const today = new Date();
-        const Todaydate = today.getFullYear() + "-" + (today.getMonth() > 10 ? (today.getMonth() + 1) : "0" + (today.getMonth() + 1)) + "-" + today.getDate();
-
+        const Todaydate = today.getFullYear() + "-" + (today.getMonth() > 10 ? (today.getMonth() + 1) : "0" + (today.getMonth() + 1)) + "-" + ((today.getDate() < 10) ? ("0" + today.getDate()) : today.getDate());
+        console.log("Today Date from BacklogFollowUp "+Todaydate);
         db.transaction((tx) => {
             const Query = "SELECT * FROM " + tableName + " WHERE (status = ? AND dateOfFollowUp < ?) OR (mystatus =? AND dateOfFollowUp = ?)   ORDER BY dateOfFollowUp DESC";
             tx.executeSql(
