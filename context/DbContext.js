@@ -3,6 +3,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { createDatabaseTable, SyncFollowUp } from '../util/database';
 import { ToastAndroid } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
+import { Month } from '../util/month';
 
 export const DbContext = createContext();
 
@@ -22,10 +23,9 @@ const DbContextProvider = ({ children }) => {
                 .then(async () => {
                     const Fulldate = new Date();
                     const date = Fulldate.getDate();
-                    const month = Fulldate.getMonth() + 1;
+                    const month = Month(Fulldate.getMonth() + 1);
                     const year = Fulldate.getFullYear();
-
-                    await SecureStore.setItemAsync('lastSync', JSON.stringify(date + "-" + (month >= 10 ? month : ("0" + month)) + "-" + year + "  " + Fulldate.toLocaleTimeString()));
+                    await SecureStore.setItemAsync('lastSync', JSON.stringify(date + "-" + month + "-" + year + "  " + Fulldate.toLocaleTimeString()));
                     let lastSync = await SecureStore.getItemAsync('lastSync');
                     setTimeout(() => {
                         const val = lastSync.slice(1, lastSync.length - 1);

@@ -10,7 +10,6 @@ export default function Login(props) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const { login ,userTocken, isOffline } = useContext(AuthContext);
-    const [] = useState(true);
     const [errMsg, setErrorMsg] = useState('');
     
     
@@ -140,7 +139,7 @@ const styles = StyleSheet.create({
         alignSelf: "center",
         justifyContent: "center",
         marginVertical: 5,
-        backgroundColor: "rgba(0, 122, 255, 1)",
+        backgroundColor: "#81D4FA",
     }
 
 });

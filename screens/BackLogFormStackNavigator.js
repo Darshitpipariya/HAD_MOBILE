@@ -4,10 +4,12 @@ import FollowUpForm from './FollowUpForm';
 import BackLogFollowUps from './BackLogFollowUps';
 
 const Stack = createStackNavigator();
-const NormalFormStackNavigator = () => {
+const NormalFormStackNavigator = (params) => {
+    
+
     return (
         <Stack.Navigator screenOptions={{ unmountOnBlur: true }}>
-            <Stack.Screen options={{ headerShown: false }} name="List" component={BackLogFollowUps} />
+            <Stack.Screen options={{ headerShown: false }} name="List" children={()=><BackLogFollowUps setCount={params.setCount}/>} />
             <Stack.Screen
                 name="FollowUpForm"
                 options={{ headerShown: false }}

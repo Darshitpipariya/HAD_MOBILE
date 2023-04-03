@@ -59,12 +59,12 @@ export default function AuthProvider({ children }) {
         setIsLoading(true);
         const userId = userinfo.uhId;
         const tableName = "USER" + userId + "Table";
-        console.log("ERROR while LOGOUT START 1")
+        console.log("while LOGOUT START 1")
         await SyncFollowUp(userTocken, tableName)
             .then(async () => {
                 await deleteDatabaseTable(tableName).then(
                     async ()=>{
-                        console.log("ERROR while LOGOUT START 2")
+                        console.log(" while LOGOUT START 2")
                         await SecureStore.deleteItemAsync('userLoginId');
                         await SecureStore.deleteItemAsync('userTocken');
                         await SecureStore.deleteItemAsync('userInfo');
@@ -80,7 +80,7 @@ export default function AuthProvider({ children }) {
                 })
             })
             .catch((err) => {
-                console.log("ERROR while LOGOUT START 4")
+                console.log("ERROR while LOGOUT START 4",err);
                 setIsLoading(false);
             });
         
@@ -127,7 +127,7 @@ export default function AuthProvider({ children }) {
         return () => unsubscribeNetworkStatus();
     }, [])
     return (
-        <AuthContext.Provider value={{ login, logout, storePin, setIsLoading, isLoading, userTocken, userinfo, userLoginId, pin, isOffline }}>
+        <AuthContext.Provider value={{ login, logout, storePin, setIsLoading, clearCredential,isLoading, userTocken, userinfo, userLoginId, pin, isOffline }}>
             {children}
         </AuthContext.Provider>
     )

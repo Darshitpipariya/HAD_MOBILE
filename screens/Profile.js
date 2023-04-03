@@ -2,6 +2,7 @@ import { View, Text, StyleSheet } from 'react-native'
 import React, { useContext } from 'react'
 import { AuthContext } from '../context/AuthContext'
 import ProfileFields from '../Component/ProfileFields';
+import { Month } from '../util/month';
 const Profile = () => {
 
   const { userinfo } = useContext(AuthContext);
@@ -10,7 +11,7 @@ const Profile = () => {
   const name = citizen.fname + " " + citizen.lname;
   const gender = citizen.gender == 'F' ? 'Female' : 'Male'
   const dobFull = new Date(citizen.dob);
-  const dob = dobFull.getDate() + "-" + (dobFull.getMonth()+1) + "-" + dobFull.getFullYear();
+  const dob = dobFull.getDate() + "-" + Month(dobFull.getMonth()+1) + "-" + dobFull.getFullYear();
   const address = citizen.street1 + "\n" + citizen.city + ", " + citizen.district +", " + citizen.pincode + ", " + citizen.state;
   const fieldValueList = [
     {
@@ -52,7 +53,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: "5%",
     paddingVertical:"15%",
-    backgroundColor:"#dcdcdc"
+    backgroundColor:"#E3F2FD"
   },
 
 });

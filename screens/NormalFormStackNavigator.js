@@ -4,10 +4,10 @@ import FollowUpForm from './FollowUpForm';
 import NormalFollowUps from './NormalFollowUps';
 const Stack = createStackNavigator();
 
-const NormalFormStackNavigator = () => {
+const NormalFormStackNavigator = (params) => {
     return (
         <Stack.Navigator screenOptions={{unmountOnBlur: true }}>
-            <Stack.Screen options={{ headerShown: false}} name="List"  component={NormalFollowUps} />
+            <Stack.Screen options={{ headerShown: false }} name="List" children={() => <NormalFollowUps setCount={params.setCount} />} />
             <Stack.Screen
                 name="FollowUpForm"
                 options={{ headerShown: false }}

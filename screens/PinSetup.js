@@ -4,14 +4,15 @@ import { AuthContext } from '../context/AuthContext';
 import Butten from '../Component/Butten';
 
 export default function PinSetup(props) {
-    const { storePin, logout } = useContext(AuthContext);
+    const { storePin, clearCredential } = useContext(AuthContext);
     const [enterStatus, setEnterStatus] = useState(false);
     const [pin, setPin] = useState('');
     const [pinInput, setPinInput] = useState('');
     const navigation = props.navigation;
+    
     useEffect(()=>{
         const unsubscribe = navigation.addListener('beforeRemove', () => {
-            logout();
+            clearCredential();
         });
         return unsubscribe;
     },[])

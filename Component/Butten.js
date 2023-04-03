@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
         alignSelf: "center",
         justifyContent: "center",
         marginVertical: 5,
-        backgroundColor: "rgba(0, 122, 255, 1)",
+        backgroundColor: "#81D4FA",
         elevation:60,
     },
     text:{
