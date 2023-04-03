@@ -1,22 +1,24 @@
 import { View, StyleSheet, Text } from 'react-native'
-import React, { useContext } from 'react'
+import React, { useContext ,useEffect} from 'react'
 import Butten from '../Component/Butten';
 import FollowUpTable from '../Component/FollowUpTable';
 import { FollowUpContext } from '../context/FollowUpContext';
 import { DbContext } from '../context/DbContext';
 
 
-const NormalFollowUps = (props) => {
+const NormalFollowUps = (params) => {
 
     const { todaysFollowUpList } = useContext(FollowUpContext);
     const { Sync, lastSyncTime } = useContext(DbContext);
-
+    useEffect(() => {
+        params.setCount(todaysFollowUpList.length)
+    }, [todaysFollowUpList])
 
     return (
-        <View>
+        <View style={styles.mainContainer}>
             <View style={styles.syncContainer}>
                 <View>
-                    <Text style={styles.syncTime}>{lastSyncTime}</Text>
+                    <Text style={styles.syncTime}>Last Sync | {lastSyncTime}</Text>
                 </View>
                 <View>
                     <Butten continerStyle={styles.syncbuttenContainer} textstyle={styles.syncbuttenText} onPress={() => { Sync() }} > Sync </Butten>
@@ -31,6 +33,9 @@ const NormalFollowUps = (props) => {
 }
 
 const styles = StyleSheet.create({
+    mainContainer:{
+        backgroundColor:"#E3F2FD"
+    },
     syncContainer: {
         flexDirection: 'row',
         alignSelf: "flex-end",

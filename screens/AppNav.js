@@ -1,5 +1,5 @@
-import { View, ActivityIndicator, StyleSheet } from 'react-native';
-import { useContext, useEffect, useState } from 'react';
+import { View, ActivityIndicator } from 'react-native';
+import { useContext } from 'react';
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { AuthContext } from '../context/AuthContext';
@@ -23,13 +23,3 @@ export default function AppNav() {
     )
 }
 
-const styles = StyleSheet.create({
-    container: {
-        marginTop: 40,
-        flex: 1,
-        marginHorizontal: 10,
-        backgroundColor: '#fff',
-        justifyContent: "center",
-        alignItems: "center"
-    },
-});

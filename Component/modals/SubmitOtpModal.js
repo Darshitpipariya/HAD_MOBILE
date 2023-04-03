@@ -6,33 +6,44 @@ import { FollowUpContext } from '../../context/FollowUpContext';
 const SubmitOtpModal = (params) => {
     // navigator
     const navigator = useNavigation();
-    const { UpdateFollowUpInDatabase }=useContext(FollowUpContext);
+    const { UpdateFollowUpInDatabase } = useContext(FollowUpContext);
     const [otp, setOtp] = useState('');
-    
+
     useEffect(() => {
-        console.log("OTP Entered"+otp);
+        console.log("OTP Entered" + otp);
     }, [otp])
 
-    function checkOtpAndSubmit(){
-        if (otp === params.followUp.secretKey){
+    function checkOtpAndSubmit() {
+        if (otp === params.followUp.secretKey) {
+
             console.log('Otp Matched\n');
             const Fulldate = new Date();
-            const date=Fulldate.getDate();
-            const month=Fulldate.getMonth()+1;
-            const year=Fulldate.getFullYear();
-            params.followUp.actualDateOfFollowUp = year+"-"+(month>=10?month:("0"+month))+"-"+date;
-            params.followUp.actualTimeOfFollowUp = Fulldate.toLocaleTimeString();
+            const date = Fulldate.getDate();
+            const month = Fulldate.getMonth() + 1;
+            const year = Fulldate.getFullYear();
+            const time = Fulldate.toLocaleTimeString().split(" ");
+            let hr = Fulldate.getHours();
+            const min = Fulldate.getMinutes() < 10 ? "0" + Fulldate.getMinutes() : Fulldate.getMinutes();
+            const sec = Fulldate.getSeconds() < 10 ? "0" + Fulldate.getSeconds() : Fulldate.getSeconds();
+            if (time[time.length - 1] === 'PM') {
+                hr += 12;
+            }
+            hr = hr < 10 ? "0" + Fulldate.getHours() : Fulldate.getHours()
+
+            params.followUp.actualDateOfFollowUp = year + "-" + (month >= 10 ? month : ("0" + month)) + "-" + ((date < 10) ? "0" + date : date);
+            params.followUp.actualTimeOfFollowUp = hr + ":" + min + ":" + sec;
+
             params.followUp.status = 1;//status 1 for submitted;
             params.followUp.mystatus = 1;
             console.log(JSON.stringify(params.followUp));
             console.log("Update in Databases\n");
             UpdateFollowUpInDatabase(params.followUp);
             console.log("Followup updated\n");
-            
+
 
             params.openOrCloseModal(false)
             navigator.goBack();
-        }else{
+        } else {
             setOtp('');
             alert('Wrong OTP');
         }
@@ -53,7 +64,7 @@ const SubmitOtpModal = (params) => {
                         </View>
                         <View style={styles.buttenContainer}>
                             <View style={styles.btnContainer}>
-                                <Butten onPress={ checkOtpAndSubmit }>submit</Butten>
+                                <Butten onPress={checkOtpAndSubmit}>submit</Butten>
                             </View>
                             <View style={styles.btnContainer}>
                                 <Butten onPress={() => { params.openOrCloseModal(false) }}>cancel</Butten>
@@ -82,7 +93,7 @@ const styles = StyleSheet.create({
     buttenContainer: {
         flexDirection: "row",
         justifyContent: "space-evenly",
-        marginTop:10,
+        marginTop: 10,
 
     },
     btnContainer: {

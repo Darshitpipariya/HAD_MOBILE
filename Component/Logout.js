@@ -3,7 +3,7 @@ import React, { useContext } from 'react'
 import { AuthContext } from '../context/AuthContext'
 
 const Logout = () => {
-    const { logout, isOffline } = useContext(AuthContext);
+    const { logout, isOffline,clearCredential } = useContext(AuthContext);
 
 
 
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
         alignSelf: "center",
         justifyContent: "center",
         marginVertical: 5,
-        backgroundColor: "rgba(0, 122, 255, 1)",
+        backgroundColor: "#81D4FA",
     },
     text: {
         fontSize: 17,

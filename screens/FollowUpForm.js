@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
         padding: 10,
-        backgroundColor: "#efefef",
+        backgroundColor: "#E3F2FD",
     },
     topContainer: {
         flexDirection: 'row',
@@ -228,11 +228,11 @@ const styles = StyleSheet.create({
     observationContainer: {
         borderRadius: 10,
         borderWidth: 1,
-        borderColor: "#C5E1A5",
+        borderColor: "#5C6BC0",
         padding: 4,
         width: 250,
         height: 160,
-        backgroundColor: "#F1F8E9",
+        backgroundColor: "#E1F5FE",
         elevation: 2,
     },
     observationInput: {

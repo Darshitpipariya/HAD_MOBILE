@@ -29,11 +29,11 @@ const styles = StyleSheet.create({
     inputContainer: {
         borderRadius: 10,
         borderWidth: 1,
-        borderColor: "#C5E1A5",
+        borderColor: "#5C6BC0",
         padding: 5,
         minWidth: "40%",
         maxWidth: "80%",
-        backgroundColor: "#F1F8E9",
+        backgroundColor: "#E1F5FE",
         elevation: 2,
     },
     input: {

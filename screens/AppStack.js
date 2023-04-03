@@ -9,15 +9,16 @@ const Stack = createStackNavigator();
 
 const AppStack = () => {
     return (
-        
+
         <Stack.Navigator initialRouteName='Enter Pin'>
-                <Stack.Screen options={{ headerRight: () => (< Logout />), headerTitle: "" }} name="Enter Pin" component={FirstPin} />
-                <Stack.Screen
-                    name="Root"
-                    options={{ headerShown: false }}
-                    component={Drawer}
-                />
-            </Stack.Navigator>
+
+            <Stack.Screen options={{ headerRight: () => (< Logout />), headerTitle: "" }} name="Enter Pin" component={FirstPin} />
+            <Stack.Screen
+                name="Root"
+                options={{ headerShown: false }}
+                component={Drawer}
+            />
+        </Stack.Navigator>
     )
 
 }

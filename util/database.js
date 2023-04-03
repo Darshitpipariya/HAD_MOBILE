@@ -150,7 +150,7 @@ export async function getUpdatedFollowups(tableName) {
                             }
                         })
                     })
-                    console.log("p " + p);
+                    console.log("p " + JSON.stringify(p) );
                 },
                 (tx, err) => {
                     console.log("GET FOLLOWUPS FOR UPLOAD TO SERVER ERROR" + err);
@@ -270,6 +270,7 @@ export async function deleteSubmitedFollowups(tableName, followUps) {
 }
 
 export async function SyncFollowUp(userTocken, tableName) {
+    
     let followUpList = await getUpdatedFollowups(tableName).catch((error)=>{console.log(error)});
     console.log("upload following followUps " + JSON.stringify(followUpList));
 
@@ -280,7 +281,7 @@ export async function SyncFollowUp(userTocken, tableName) {
                     console.log(JSON.stringify(error));
                 });
             }
-            if(followUpList!==null){
+            if(followUpList!==null && followUpList!==undefined){
                 await deleteSubmitedFollowups(tableName, followUpList);
             }
         })

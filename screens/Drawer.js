@@ -7,15 +7,17 @@ import DrawerWithLogoutButton from '../Component/DrawerWithLogoutButton';
 const MyDrawer = createDrawerNavigator();
 const Drawer = () => {
     return (
-            <MyDrawer.Navigator
-                screenOptions={{
-                    drawerLabelStyle: { fontSize: 16 },
-                    unmountOnBlur: true
-                }}
-                drawerContent={(props) => <DrawerWithLogoutButton {...props} />}>
-                <MyDrawer.Screen name="Home" component={HomeScreen} />
-                <MyDrawer.Screen name="Profile" component={Profile} />
-            </MyDrawer.Navigator>
+
+        <MyDrawer.Navigator
+            screenOptions={{
+                drawerLabelStyle: { fontSize: 16 },
+                headerStyle: { backgroundColor:"#E1F5FE"},
+                unmountOnBlur: true
+            }}
+            drawerContent={(props) => <DrawerWithLogoutButton {...props} />}>
+            <MyDrawer.Screen name="Home" title="home" component={HomeScreen} />
+            <MyDrawer.Screen name="Profile" title="profile" component={Profile} />
+        </MyDrawer.Navigator>
     )
 }
 

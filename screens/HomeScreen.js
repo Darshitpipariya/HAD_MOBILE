@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import NormalFormStackNavigator from './NormalFormStackNavigator';
 import BackLogFormStackNavigator from './BackLogFormStackNavigator'
@@ -7,21 +7,31 @@ import DbContextProvider from '../context/DbContext';
 const Tab = createMaterialTopTabNavigator();
 
 const HomeScreen = () => {
+
+    const [countToday,setCountToday]=useState(0);
+    const [countBackLog, setCountBackLog] = useState(0);
+
     return (
         <DbContextProvider>
             <FollowUpProvider>
                 <Tab.Navigator
                     screenOptions={{
                         tabBarLabelStyle: { fontSize: 14, fontWeight: "500" },
+                        tabBarStyle: { backgroundColor: '#E1F5FE' },
+                        tabBarActiveTintColor:"#7E57C2",
+                        tabBarInactiveTintColor:"#D1C4E9",
                         unmountOnBlur: true
                     }}>
                     <Tab.Screen
                         name='Today'
-                        component={NormalFormStackNavigator}
+                        options={{ tabBarLabel: `Today (${countToday})` }}
+                        children={() => <NormalFormStackNavigator setCount={setCountToday} />}
                     />
                     <Tab.Screen
                         name='Backlog'
-                        component={BackLogFormStackNavigator}
+                        options={{tabBarLabel:`Backlog (${countBackLog})`}}
+                        
+                        children={() => <BackLogFormStackNavigator setCount={setCountBackLog}/>}
 
                     />
 
