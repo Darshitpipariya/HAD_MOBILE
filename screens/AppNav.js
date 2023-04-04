@@ -5,13 +5,14 @@ import { NavigationContainer } from '@react-navigation/native';
 import { AuthContext } from '../context/AuthContext';
 import AppStack from './AppStack';
 import AuthStack from './AuthStack';
+import { COLOR } from '../util/config';
 
 
 export default function AppNav() {
     const { isLoading, userTocken ,pin} = useContext(AuthContext)
 
     if (isLoading) {
-        return (<View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        return (<View style={{ flex: 1, justifyContent: "center", alignItems: "center" ,backgroundColor:COLOR.defaultBackGroundColor}}>
             <ActivityIndicator size={'large'} />
         </View>);
     }

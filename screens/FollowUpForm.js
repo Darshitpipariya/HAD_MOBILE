@@ -10,6 +10,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native'
 import { AuthContext } from '../context/AuthContext';
 import { print } from '../util/printPrescription';
+import { COLOR } from '../util/config';
 
 const FollowUpForm = ({ route }) => {
     // navigator
@@ -181,7 +182,6 @@ const FollowUpForm = ({ route }) => {
                     <View style={styles.buttenContainer}>
                         <Butten onPress={submitFollowUps} >submit</Butten>
                         <Butten onPress={() => { openOrClosePedingModal(true) }} >pending</Butten>
-                        {/* <Butten onPress={() => { printPrescription }}></Butten> */}
                     </View>
                 </View>
             </ScrollView>
@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
         padding: 10,
-        backgroundColor: "#E3F2FD",
+        backgroundColor: COLOR.defaultBackGroundColor,
     },
     topContainer: {
         flexDirection: 'row',
@@ -211,7 +211,6 @@ const styles = StyleSheet.create({
         fontSize: 14,
     },
     printLable: {
-        color: "#1976D2",
         padding: 5,
         marginRight: 3,
     },
@@ -228,11 +227,11 @@ const styles = StyleSheet.create({
     observationContainer: {
         borderRadius: 10,
         borderWidth: 1,
-        borderColor: "#5C6BC0",
+        borderColor: COLOR.inputBorderColor,
         padding: 4,
         width: 250,
         height: 160,
-        backgroundColor: "#E1F5FE",
+        backgroundColor: COLOR.inputBackGroundColor,
         elevation: 2,
     },
     observationInput: {

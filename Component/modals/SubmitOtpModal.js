@@ -1,13 +1,16 @@
-import { View, Text, Modal, StyleSheet, TextInput } from 'react-native'
+import { View, Text, Modal, StyleSheet, TextInput, TouchableOpacity } from 'react-native'
 import React, { useState, useEffect, useContext } from 'react'
 import Butten from '../Butten';
 import { useNavigation } from '@react-navigation/native'
 import { FollowUpContext } from '../../context/FollowUpContext';
+import { MaterialIcons } from '@expo/vector-icons';
+import { COLOR } from '../../util/config';
 const SubmitOtpModal = (params) => {
     // navigator
     const navigator = useNavigation();
     const { UpdateFollowUpInDatabase } = useContext(FollowUpContext);
     const [otp, setOtp] = useState('');
+    const [passVisible, setPassVisible] = useState(false);
 
     useEffect(() => {
         console.log("OTP Entered" + otp);
@@ -39,8 +42,6 @@ const SubmitOtpModal = (params) => {
             console.log("Update in Databases\n");
             UpdateFollowUpInDatabase(params.followUp);
             console.log("Followup updated\n");
-
-
             params.openOrCloseModal(false)
             navigator.goBack();
         } else {
@@ -48,6 +49,8 @@ const SubmitOtpModal = (params) => {
             alert('Wrong OTP');
         }
     }
+
+
     return (
         <View>
             <Modal animationType="fade" transparent={true} visible={params.visible}>
@@ -60,7 +63,12 @@ const SubmitOtpModal = (params) => {
                                 style={styles.otpInput}
                                 onChangeText={(otp) => { setOtp(otp) }}
                                 value={otp}
+                                secureTextEntry={!passVisible}
                             />
+                            <TouchableOpacity onPress={() => { setPassVisible(!passVisible) }} style={{ paddingHorizontal: 10, }}>
+                                {passVisible ? <MaterialIcons name="visibility" size={24} color="black" />
+                                    : <MaterialIcons name="visibility-off" size={24} color="black" />}
+                            </TouchableOpacity>
                         </View>
                         <View style={styles.buttenContainer}>
                             <View style={styles.btnContainer}>
@@ -107,11 +115,14 @@ const styles = StyleSheet.create({
         fontSize: 18,
     },
     otpContainer: {
+        justifyContent:"space-between",
+        flexDirection:"row",
+        alignItems:"center",
         borderRadius: 10,
         borderWidth: 1,
-        borderColor: "#C5E1A5",
+        borderColor: COLOR.inputBorderColor,
         padding: 4,
-        backgroundColor: "#F1F8E9",
+        backgroundColor: COLOR.inputBackGroundColor,
         elevation: 2,
     },
     otpInput: {

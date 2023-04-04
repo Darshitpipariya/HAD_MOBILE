@@ -3,6 +3,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import Profile from './Profile';
 import HomeScreen from './HomeScreen';
 import DrawerWithLogoutButton from '../Component/DrawerWithLogoutButton';
+import { COLOR } from '../util/config';
 
 const MyDrawer = createDrawerNavigator();
 const Drawer = () => {
@@ -11,7 +12,7 @@ const Drawer = () => {
         <MyDrawer.Navigator
             screenOptions={{
                 drawerLabelStyle: { fontSize: 16 },
-                headerStyle: { backgroundColor:"#E1F5FE"},
+                headerStyle: {  backgroundColor:COLOR.defaultHeaderBackGroundColor},
                 unmountOnBlur: true
             }}
             drawerContent={(props) => <DrawerWithLogoutButton {...props} />}>

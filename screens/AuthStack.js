@@ -5,10 +5,11 @@ import PinSetup from './PinSetup';
 import Login from './LoginStack';
 import ForgotPassword from './ForgotPassword';
 import SetNewPassword from './SetNewPassword';
+import { COLOR } from '../util/config';
 const Stack = createStackNavigator();
 const AuthStack = () => {
     return (
-        <Stack.Navigator>
+        <Stack.Navigator screenOptions={{ headerStyle: { backgroundColor: COLOR.defaultHeaderBackGroundColor } }}>
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="SetUp Pin" component={PinSetup} />
             <Stack.Screen name='Forgot Password' component={ForgotPassword}/>

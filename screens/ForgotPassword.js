@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, TextInput, Alert } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import Butten from '../Component/Butten'
 import { getOtp, validateOtp } from '../util/http';
+import { COLOR } from '../util/config';
 
 const ForgotPassword = (props) => {
 
@@ -100,18 +101,18 @@ const ForgotPassword = (props) => {
 
 const styles = StyleSheet.create({
     mainContainer:{
-        margin:"15%",
-        padding: "10%", 
+        padding: "15%", 
         flex: 1, 
         justifyContent: "center",
+        backgroundColor:COLOR.defaultBackGroundColor
     },
     otpContainer: {
         borderRadius: 10,
         borderWidth: 1,
-        borderColor: "#C5E1A5",
+        borderColor: COLOR.inputBorderColor,
         padding: 4,
         margin: 10,
-        backgroundColor: "#F1F8E9",
+        backgroundColor:COLOR.inputBackGroundColor,
         elevation: 2,
     },
     otpInput: {

@@ -4,6 +4,7 @@ import NormalFormStackNavigator from './NormalFormStackNavigator';
 import BackLogFormStackNavigator from './BackLogFormStackNavigator'
 import FollowUpProvider from '../context/FollowUpContext';
 import DbContextProvider from '../context/DbContext';
+import { COLOR } from '../util/config';
 const Tab = createMaterialTopTabNavigator();
 
 const HomeScreen = () => {
@@ -17,10 +18,11 @@ const HomeScreen = () => {
                 <Tab.Navigator
                     screenOptions={{
                         tabBarLabelStyle: { fontSize: 14, fontWeight: "500" },
-                        tabBarStyle: { backgroundColor: '#E1F5FE' },
-                        tabBarActiveTintColor:"#7E57C2",
-                        tabBarInactiveTintColor:"#D1C4E9",
-                        unmountOnBlur: true
+                        tabBarStyle: { backgroundColor: COLOR.tabBarHeaderColor },
+                        tabBarActiveTintColor:"#ffffff",
+                        tabBarInactiveTintColor:"#b59ae6",
+                        tabBarIndicatorStyle: { backgroundColor:"#ffffff",},
+                        unmountOnBlur: true,
                     }}>
                     <Tab.Screen
                         name='Today'

@@ -6,6 +6,7 @@ import { Month } from '../util/month';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { dialCall } from '../util/openDailer';
 import { Feather } from '@expo/vector-icons';
+import { COLOR } from '../util/config';
 const FollowUpRow = ({ followUp }) => {
 
   const navigator = useNavigation();
@@ -15,90 +16,96 @@ const FollowUpRow = ({ followUp }) => {
   let year = objectdate.getFullYear();
   const fullname = followUp.fname + " " + followUp.lname;
   const address = followUp.street1 + "\n" + followUp.city + ", " + followUp.district;
-  return (
-    <View style={styles.followUpContainer}>
-      <View style={styles.dateContainer}>
-        <Text style={styles.dateText}>{date + "-" + month + "-" + year}</Text>
-      </View>
-      <View style={styles.infoContainer}>
-        <Text style={styles.nameText}>{fullname}</Text>
-        <TouchableOpacity onPress={() => { dialCall(followUp.mobileNo) }} style={{ flexDirection: "row", backgroundColor:"#E3F2FD",padding:1,borderRadius:10,}}>
-          <Text style={styles.contactText}>{followUp.mobileNo}</Text>
-          <Feather name="phone-call" size={15} color="black" />
-        </TouchableOpacity>
-        <Text style={styles.addressText}  >{address}</Text>
-      </View>
-      <View style={styles.btnContainer}>
-        <Butten
-          textstyle={styles.fillUpBtn}
 
-          onPress={() => {
-            navigator.navigate("FollowUpForm",
-              {
-                followUp: followUp,
-              })
-          }}>Fill Up</Butten>
-      </View>
-    </View>);
+  return (
+
+    <View style={styles.followUpContainer}>
+        <View style={styles.dateContainer}>
+          <Text style={styles.dateText}>{date + "-" + month + "-" + year}</Text>
+        </View>
+        <View style={styles.infoContainer}>
+          <Text style={styles.nameText}>{fullname}</Text>
+          <Text style={styles.contactText}>{followUp.mobileNo}</Text>
+          <Text style={styles.addressText}  >{address}</Text>
+        </View>
+        <View style={styles.btnContainer}>
+          <Butten
+            textstyle={styles.fillUpBtn}
+
+            onPress={() => {
+              navigator.navigate("FollowUpForm",
+                {
+                  followUp: followUp,
+                })
+            }}>Fill Up</Butten>
+          <Butten onPress={() => { dialCall(followUp.mobileNo) }}>
+            <Feather name="phone-call" size={15} color="white" />
+          </Butten>
+        </View>
+    </View>
+  );
 }
 
 
 const styles = StyleSheet.create({
   followUpContainer: {
-    borderColor: "hsl(120, 100%, 98%)",
     marginVertical: 5,
-    marginHorizontal: 5,
-    padding: 15,
+    marginHorizontal: 9,
+    padding:2,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#E1F5FE",
-    borderRadius: 15,
-    elevation: 3,
+    borderRadius:12,
+    elevation:8,
+    backgroundColor: COLOR.cardBackGroubdColor,
   },
   fillUpBtn: {
     fontSize: 15,
     fontWeight: "500"
   },
   dateContainer: {
-    width: "22%",
-    margin: 4,
+    width: "24%",
   },
   dateText: {
-    padding: 1,
+    flex: 1,
+    textAlign: "center",
+    textAlignVertical: "center",
+    padding: 3,
+    borderBottomLeftRadius: 10,
+    borderTopLeftRadius: 10,
     fontSize: 14,
     fontWeight: "700"
   },
   infoContainer: {
+    padding: 3,
     alignItems: "flex-start",
     justifyContent: "flex-start",
     width: "50%",
+    borderTopRightRadius: 5,
+    borderBottomRightRadius: 5,
   },
   nameText: {
-    marginVertical: 2,
-    padding: 2,
+    padding: 5,
     textAlign: "left",
     fontSize: 13,
     fontWeight: "700"
   },
   contactText: {
-    padding: 2,
+    padding: 5,
     textAlign: "left",
     fontSize: 13,
     fontWeight: "500",
   },
   addressText: {
-    padding: 2,
+    padding: 5,
     textAlign: "left",
     fontSize: 13,
     fontWeight: "500"
-
   },
   btnContainer: {
-    margin: 2,
-    padding: 2,
-    width: "30%",
-
+    width: "26%",
+    marginRight: 6,
+    marginLeft: 2,
   }
 })
 

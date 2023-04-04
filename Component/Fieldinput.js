@@ -1,5 +1,6 @@
 import { View, Text, TextInput, StyleSheet } from 'react-native'
 import React, { useEffect, useState } from 'react'
+import { COLOR } from '../util/config'
 
 const Fieldinput = (params) => {
     return (
@@ -29,11 +30,11 @@ const styles = StyleSheet.create({
     inputContainer: {
         borderRadius: 10,
         borderWidth: 1,
-        borderColor: "#5C6BC0",
+        borderColor: COLOR.inputBorderColor,
         padding: 5,
         minWidth: "40%",
         maxWidth: "80%",
-        backgroundColor: "#E1F5FE",
+        backgroundColor: COLOR.inputBackGroundColor,
         elevation: 2,
     },
     input: {

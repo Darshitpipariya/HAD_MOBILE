@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import React from 'react'
+import { COLOR } from '../util/config';
 
 const Butten = (params) => {
 
@@ -21,13 +22,14 @@ const styles = StyleSheet.create({
         alignSelf: "center",
         justifyContent: "center",
         marginVertical: 5,
-        backgroundColor: "#81D4FA",
-        elevation:60,
+        backgroundColor: COLOR.buttenBackGroundColor,
+        elevation:4,
     },
     text:{
         fontSize:18,
         fontWeight:"500",
         textAlign:"center",
+        color:"#ffffff"
     }
 });
 export default Butten

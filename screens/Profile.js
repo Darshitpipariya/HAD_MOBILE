@@ -3,6 +3,7 @@ import React, { useContext } from 'react'
 import { AuthContext } from '../context/AuthContext'
 import ProfileFields from '../Component/ProfileFields';
 import { Month } from '../util/month';
+import { COLOR } from '../util/config';
 const Profile = () => {
 
   const { userinfo } = useContext(AuthContext);
@@ -53,7 +54,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: "5%",
     paddingVertical:"15%",
-    backgroundColor:"#E3F2FD"
+    backgroundColor:COLOR.defaultBackGroundColor,
   },
 
 });

@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, TouchableOpacity, ToastAndroid } from 'react-native'
 import React, { useContext } from 'react'
 import { AuthContext } from '../context/AuthContext'
+import { COLOR } from '../util/config';
 
 const Logout = () => {
     const { logout, isOffline,clearCredential } = useContext(AuthContext);
@@ -29,18 +30,20 @@ const styles = StyleSheet.create({
     Btn: {
         marginHorizontal:2,
         width: 100,
-        borderRadius: 18,
+        borderRadius: 10,
         height: 40,
         alignItems: "center",
         alignSelf: "center",
         justifyContent: "center",
         marginVertical: 5,
-        backgroundColor: "#81D4FA",
+        backgroundColor: COLOR.buttenBackGroundColor,
+        elevation: 4,
     },
     text: {
         fontSize: 17,
         fontWeight: "500",
         textAlign: "center",
+        color: "#ffffff"
     }
 });
 export default Logout
