@@ -11,8 +11,9 @@ const FollowUpProvider = ({ children }) => {
     const db = SQLite.openDatabase(DATABASE.name, '1.0', 'Demo', 1000000);
     const [backlogFollowUpList, setBacklogFollowUpList] = useState([]);
     const [todaysFollowUpList, setTodaysFollowUpList] = useState([]);
+    const [getAllFollowUpList, setGetAllFollowUpList] = useState([]);
     const { tableName, syncList, setSyncList } = useContext(DbContext);
-
+    
     useEffect(() => {
         console.log("Sync " + syncList);
         if (syncList == true) {
@@ -22,25 +23,17 @@ const FollowUpProvider = ({ children }) => {
             getBackLogFollowUpsfromDatabase().catch((error) => {
                 console.log("BAcklog" + error);
             })
+            getAllFollowUpsFromDatabase().catch((error) => {
+                console.log("All Error" + error);
+            })
             setSyncList(false);
         }
-
     }, [syncList])
-
-
-    // useEffect(()=>{
-    //     console.log("TODAY\n"+JSON.stringify(todaysFollowUpList));
-    // },[todaysFollowUpList])
-    // useEffect(() => {
-    //     console.log("BackLog\n" + JSON.stringify(backlogFollowUpList));
-    // }, [backlogFollowUpList])
-
-
 
     async function getTodaysFollowUpsfromDatabase() {
         const today = new Date();
         const Todaydate = today.getFullYear() + "-" + (today.getMonth() > 10 ? (today.getMonth() + 1) : "0" + (today.getMonth() + 1)) + "-" + ((today.getDate() < 10) ? ("0" + today.getDate()) : today.getDate());
-        console.log("TodayDate from TodayFollowups "+Todaydate);
+        console.log("TodayDate from TodayFollowups " + Todaydate);
         db.transaction((tx) => {
             const Query = "SELECT * FROM " + tableName + " WHERE dateOfFollowUp = ? AND status= ? AND mystatus = ? ";
             const res = tx.executeSql(
@@ -65,7 +58,7 @@ const FollowUpProvider = ({ children }) => {
     async function getBackLogFollowUpsfromDatabase() {
         const today = new Date();
         const Todaydate = today.getFullYear() + "-" + (today.getMonth() > 10 ? (today.getMonth() + 1) : "0" + (today.getMonth() + 1)) + "-" + ((today.getDate() < 10) ? ("0" + today.getDate()) : today.getDate());
-        console.log("Today Date from BacklogFollowUp "+Todaydate);
+        console.log("Today Date from BacklogFollowUp " + Todaydate);
         db.transaction((tx) => {
             const Query = "SELECT * FROM " + tableName + " WHERE (status = ? AND dateOfFollowUp < ?) OR (mystatus =? AND dateOfFollowUp = ?)   ORDER BY dateOfFollowUp DESC";
             tx.executeSql(
@@ -81,6 +74,47 @@ const FollowUpProvider = ({ children }) => {
             )
         });
     }
+
+    async function getAllFollowUpsFromDatabase() {
+        db.transaction((tx) => {
+            const Query = "SELECT * FROM " + tableName + " WHERE status = ?  ORDER BY dateOfFollowUp DESC";
+            tx.executeSql(
+                Query,
+                [0],
+                (tx, res) => {
+                    console.log("Called All" + JSON.stringify(res.rows._array));
+                    setGetAllFollowUpList(res.rows._array);
+                },
+                (tx, err) => {
+                    console.log(err);
+                }
+            )
+        });
+    }
+
+    async function getAllFollowUpsFromDatabaseForDate(date) {
+        return new Promise((resolve, reject) => {
+
+            const Curdate = date.getFullYear() + "-" + (date.getMonth() > 10 ? (date.getMonth() + 1) : "0" + (date.getMonth() + 1)) + "-" + ((date.getDate() < 10) ? ("0" + date.getDate()) : date.getDate());
+            console.log("Cur Date from getAllFollowUpsFromDatabaseForDate " + Curdate);
+            db.transaction((tx) => {
+                const Query = "SELECT * FROM " + tableName + " WHERE (status = ? AND dateOfFollowUp == ?) ORDER BY dateOfFollowUp DESC";
+                tx.executeSql(
+                    Query,
+                    [0, Curdate],
+                    (tx, res) => {
+                        console.log("Called All Date at "+ Curdate +" " + JSON.stringify(res.rows._array));
+                        resolve(res.rows._array);
+                    },
+                    (tx, err) => {
+                        console.log(err);
+                        reject(err);
+                    }
+                )
+            });
+        })
+    }
+
     async function UpdateFollowUpInDatabase(f) {
         db.transaction((tx) => {
             const Query = `UPDATE ` + tableName + ` set
@@ -91,8 +125,12 @@ const FollowUpProvider = ({ children }) => {
                     status = ? ,
                     mystatus = ? ,
                     instruction = ? ,
-                    fields = ? ,
-                    fieldsValue = ? ,
+                    bloodSugar = ? ,
+                    bloodOxygen = ? ,
+                    skinColor = ? ,
+                    eyeColor = ? ,
+                    temperature = ? ,
+                    inflammation = ? ,
                     observation = ? ,
                     secretKey = ? ,
                     reasonIfDelayed = ? ,
@@ -119,8 +157,12 @@ const FollowUpProvider = ({ children }) => {
                     f.status,
                     f.mystatus,
                     f.instruction,
-                    f.fields,
-                    f.fieldsValue,
+                    f.bloodSugar,
+                    f.bloodOxygen,
+                    f.skinColor,
+                    f.eyeColor,
+                    f.temperature,
+                    f.inflammation,
                     f.observation,
                     f.secretKey,
                     f.reasonIfDelayed,
@@ -151,7 +193,7 @@ const FollowUpProvider = ({ children }) => {
     }
 
     return (
-        <FollowUpContext.Provider value={{ backlogFollowUpList, todaysFollowUpList, getTodaysFollowUpsfromDatabase, getBackLogFollowUpsfromDatabase, UpdateFollowUpInDatabase }}>
+        <FollowUpContext.Provider value={{ backlogFollowUpList, todaysFollowUpList, getAllFollowUpList, getAllFollowUpsFromDatabaseForDate, getAllFollowUpsFromDatabase, getTodaysFollowUpsfromDatabase, getBackLogFollowUpsfromDatabase, UpdateFollowUpInDatabase, getAllFollowUpsFromDatabaseForDate }}>
             {children}
         </FollowUpContext.Provider>
     )

@@ -26,7 +26,7 @@ const NormalFollowUps = (params) => {
                 </View>
             </View>
             <View>
-                <FollowUpTable FollowUps={todaysFollowUpList} />
+                <FollowUpTable FollowUps={todaysFollowUpList} fillUpDisabled={false} />
             </View>
         </View >
     )

@@ -30,8 +30,12 @@ export async function createDatabaseTable(tableName) {
                             status INT(1),
                             mystatus INT(1) DEFAULT 0,
                             instruction TEXT,
-                            fields TEXT,
-                            fieldsValue TEXT,
+                            bloodSugar TEXT,
+                            bloodOxygen TEXT,
+                            skinColor TEXT,
+                            eyeColor TEXT,
+                            temperature TEXT,
+                            inflammation TEXT,
                             observation TEXT,
                             secretKey TEXT,
                             reasonIfDelayed TEXT,
@@ -79,7 +83,7 @@ export async function deleteDatabaseTable(tableName) {
                 console.log("DROP TABLE RES" + res.rows._array);
             },
             (tx, err) => {
-                console.log("DROP TABLE ERROR "+err);
+                console.log("DROP TABLE ERROR " + err);
                 throw err;
             }
         );
@@ -97,8 +101,12 @@ export async function getUpdatedFollowups(tableName) {
                     actualTimeOfFollowUp ,
                     status ,
                     instruction ,
-                    fields ,
-                    fieldsValue ,
+                    bloodSugar,
+                    bloodOxygen,
+                    skinColor,
+                    eyeColor,
+                    temperature,
+                    inflammation,
                     observation ,
                     secretKey ,
                     reasonIfDelayed ,
@@ -128,8 +136,12 @@ export async function getUpdatedFollowups(tableName) {
                             "actualTimeOfFollowUp": f.actualTimeOfFollowUp,
                             "status": f.status,
                             "instruction": f.instruction,
-                            "fields": f.fields,
-                            "fieldsValue": f.fieldsValue,
+                            "bloodSugar":f.bloodSugar,
+                            "bloodOxygen":f.bloodOxygen,
+                            "skinColor":f.skinColor,
+                            "eyeColor":f.eyeColor,
+                            "temperature":f.temperature,
+                            "inflammation":f.inflammation,
                             "observation": f.observation,
                             "secretKey": f.secretKey,
                             "reasonIfDelayed": f.reasonIfDelayed,
@@ -150,7 +162,7 @@ export async function getUpdatedFollowups(tableName) {
                             }
                         })
                     })
-                    console.log("p " + JSON.stringify(p) );
+                    console.log("p " + JSON.stringify(p));
                 },
                 (tx, err) => {
                     console.log("GET FOLLOWUPS FOR UPLOAD TO SERVER ERROR" + err);
@@ -167,7 +179,7 @@ export async function getUpdatedFollowups(tableName) {
 }
 
 export async function insertFollowUpIntoDatabases(tableName, f) {
-    const mystatus = f.reasonIfDelayed===null?0:2;
+    const mystatus = f.reasonIfDelayed === null ? 0 : 2;
     const reasonIfDelayed = f.reasonIfDelayed === null ? '' : f.reasonIfDelayed;
     db.transaction((tx) => {
         const Query = `INSERT INTO ` + tableName + ` 
@@ -178,8 +190,12 @@ export async function insertFollowUpIntoDatabases(tableName, f) {
                     actualTimeOfFollowUp ,
                     status ,
                     instruction ,
-                    fields ,
-                    fieldsValue ,
+                    bloodSugar,
+                    bloodOxygen,
+                    skinColor,
+                    eyeColor,
+                    temperature,
+                    inflammation,
                     observation ,
                     secretKey ,
                     reasonIfDelayed ,
@@ -199,7 +215,7 @@ export async function insertFollowUpIntoDatabases(tableName, f) {
                     mystatus
                 ) 
             VALUES 
-                (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) `;
+                (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) `;
         tx.executeSql(
             Query,
             [
@@ -209,8 +225,12 @@ export async function insertFollowUpIntoDatabases(tableName, f) {
                 f.actualTimeOfFollowUp,
                 f.status,
                 f.instruction,
-                f.fields,
-                f.fieldsValue,
+                f.bloodSugar,
+                f.bloodOxygen,
+                f.skinColor,
+                f.eyeColor,
+                f.temperature,
+                f.inflammation,
                 f.observation,
                 f.secretKey,
                 reasonIfDelayed,
@@ -273,8 +293,8 @@ export async function deleteSubmitedFollowups(tableName, followUps) {
 }
 
 export async function SyncFollowUp(userTocken, tableName) {
-    
-    let followUpList = await getUpdatedFollowups(tableName).catch((error)=>{console.log(error)});
+
+    let followUpList = await getUpdatedFollowups(tableName).catch((error) => { console.log(error) });
     console.log("upload following followUps " + JSON.stringify(followUpList));
 
     await syncFollowUps(followUpList, userTocken)
@@ -284,7 +304,7 @@ export async function SyncFollowUp(userTocken, tableName) {
                     console.log(JSON.stringify(error));
                 });
             }
-            if(followUpList!==null && followUpList!==undefined){
+            if (followUpList !== null && followUpList !== undefined) {
                 await deleteSubmitedFollowups(tableName, followUpList);
             }
         })
@@ -293,7 +313,7 @@ export async function SyncFollowUp(userTocken, tableName) {
             throw err
         });
 
-    
+
 
 
     return followUpList;

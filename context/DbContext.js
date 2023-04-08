@@ -36,14 +36,18 @@ const DbContextProvider = ({ children }) => {
                 })
                 .catch((error) => { console.log(error) });
         } else {
+            
             let lastSync = await SecureStore.getItemAsync('lastSync');
+            
             setTimeout(() => {
                 const val = lastSync.slice(1, lastSync.length - 1);
                 setLastSyncTime(val);
                 console.log("LAST SYNC TIME : " + val);
             }, 100)
+
             console.log("LAST SYNC TIME : " + lastSync);
             ToastAndroid.show("Internet is not avalible", ToastAndroid.SHORT);
+        
         }
         setTimeout(() => {
             setSyncList(true);

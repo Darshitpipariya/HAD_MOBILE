@@ -24,7 +24,7 @@ const BackLogFollowUps = (params) => {
                 </View>
             </View>
             <View>
-                <FollowUpTable FollowUps={backlogFollowUpList} />
+                <FollowUpTable FollowUps={backlogFollowUpList} fillUpDisabled={false} />
             </View>
         </View>
     )
