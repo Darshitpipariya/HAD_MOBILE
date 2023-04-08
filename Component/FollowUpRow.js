@@ -3,7 +3,6 @@ import React from 'react'
 import Butten from './Butten';
 import { useNavigation } from '@react-navigation/native'
 import { Month } from '../util/month';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import { dialCall } from '../util/openDailer';
 import { Feather } from '@expo/vector-icons';
 import { COLOR } from '../util/config';
@@ -16,6 +15,10 @@ const FollowUpRow = ({ followUp }) => {
   let year = objectdate.getFullYear();
   const fullname = followUp.fname + " " + followUp.lname;
   const address = followUp.street1 + "\n" + followUp.city + ", " + followUp.district;
+
+  const call=()=>{
+    dialCall(followUp.mobileNo)
+  }
 
   return (
 
@@ -38,7 +41,7 @@ const FollowUpRow = ({ followUp }) => {
                   followUp: followUp,
                 })
             }}>Fill Up</Butten>
-          <Butten onPress={() => { dialCall(followUp.mobileNo) }}>
+          <Butten onPress={() => { call() }}>
             <Feather name="phone-call" size={15} color="white" />
           </Butten>
         </View>

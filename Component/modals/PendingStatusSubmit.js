@@ -3,6 +3,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import Butten from '../Butten';
 import { useNavigation } from '@react-navigation/native'
 import { FollowUpContext } from '../../context/FollowUpContext';
+import { COLOR } from '../../util/config';
 const PendingStatusSubmit = (params) => {
     // navigator
     const navigator = useNavigation();
@@ -16,7 +17,7 @@ const PendingStatusSubmit = (params) => {
     function addMessageAndUpdateFollowUp() {
         params.followUp.observation = '';
         params.followUp.fieldsValue = '';
-        params.followUp.reasonIfDelayed = message.trim();
+        params.followUp.reasonIfDelayed = (params.followUp.reasonIfDelayed === '') ? message.trim() : (params.followUp.reasonIfDelayed + ','+message.trim()) ;
         params.followUp.status=0;
         params.followUp.mystatus = 2;//status 1 for submitted;
         console.log("Update in Databases\n")
@@ -87,14 +88,15 @@ const styles = StyleSheet.create({
     messageContainer: {
         borderRadius: 10,
         borderWidth: 1,
-        borderColor: "#C5E1A5",
+        borderColor: COLOR.inputBorderColor,
         padding: 4,
         width: 280,
         height: 140,
-        backgroundColor: "#F1F8E9",
+        backgroundColor: COLOR.inputBackGroundColor,
         elevation: 2,
     },
     messageInput: {
+        flex:1,
         textAlign: "left",
         textAlignVertical: "top",
         paddingHorizontal: 5,

@@ -54,7 +54,7 @@ export default function Login(props) {
                 }
             }
         } else {
-            customToast("Internate Is Not Avalible", 2000);
+            customToast("Internet Is Not Avalible", 2000);
         }
     }
     return (

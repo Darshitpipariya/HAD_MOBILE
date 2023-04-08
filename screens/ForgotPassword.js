@@ -10,14 +10,17 @@ const ForgotPassword = (props) => {
     const [username, setUsername] = useState('');
     const [visible, setVisible] = useState(false)
     const navigation = props.navigation;
-    
-    useEffect(()=>{
+
+    useEffect(() => {
         setVisible(false);
-    },[])
+    }, [])
 
     async function submituserID() {
         if (username.trim() === '') {
             alert("Enter Username");
+        }else if(!username.trim().startsWith("FHW")){
+            alert("Enter valid username");
+            setUsername('');
         } else {
             try {
 
@@ -37,33 +40,53 @@ const ForgotPassword = (props) => {
     }
 
 
-    async function submitOtp(){
-        if(otp.trim()===''){
+    async function submitOtp() {
+        if (otp.trim() === '') {
             alert("Enter OTP");
-        }else{
+        } else {
             try {
-                const response=await validateOtp(username,otp)
-                console.log("SECRET "+response.headers.secret);
-                // handle visible
-                navigation.navigate("Set New Password",
-                {
-                    username: username,
-                    secret: response.headers.secret,
-                });
-                setVisible(false);
-                setOtp('');
-                setUsername('');
-            } catch (error) {
-                msg=''
-                if(!error?.response){
-                    msg='server unreachable';
-                }else{
-                    msg='Invalid Otp';
+                const response = await validateOtp(username, otp);
+                if (response.data == '0') {
+                    console.log("SECRET " + response.headers.secret);
+                    // handle visible
+                    navigation.navigate("Set New Password",
+                        {
+                            username: username,
+                            secret: response.headers.secret,
+                        });
+                    setVisible(false);
+                    setOtp('');
+                    setUsername('');
+                } else if (response.data == '1') {
+                    msg = 'Invalid Otp. Try again';
+                    setVisible(true);
+                    setOtp('');
+                    alert(msg);
+                } else if (response.data = '2') {
+                    msg = 'Otp Expired try again';
+                    setVisible(false);
+                    setOtp('');
+                    setUsername('');
+                    alert(msg);
                 }
-                setVisible(false);
-                setOtp('');
-                setUsername('');
-                alert(msg);
+
+            } catch (error) {
+                msg = '';
+                if(error?.response){
+                    msg = 'server unreachable';
+                    setVisible(false);
+                    setOtp('');
+                    setUsername('');
+                    alert(msg);
+                }else{
+                    msg = 'Invalid User';
+                    setVisible(false);
+                    setOtp('');
+                    setUsername('');
+                    alert(msg);
+                }
+                
+
             }
         }
     }
@@ -75,7 +98,7 @@ const ForgotPassword = (props) => {
 
             <View style={styles.otpContainer}>
                 <TextInput
-                    
+
                     style={styles.otpInput}
                     onChangeText={(username) => { setUsername(username) }}
                     value={username}
@@ -85,7 +108,7 @@ const ForgotPassword = (props) => {
             </View>
             {visible && <View style={styles.otpContainer}>
                 <TextInput
-                    
+
                     style={styles.otpInput}
                     onChangeText={(otp) => { setOtp(otp) }}
                     value={otp}
@@ -100,11 +123,11 @@ const ForgotPassword = (props) => {
 }
 
 const styles = StyleSheet.create({
-    mainContainer:{
-        padding: "15%", 
-        flex: 1, 
+    mainContainer: {
+        padding: "15%",
+        flex: 1,
         justifyContent: "center",
-        backgroundColor:COLOR.defaultBackGroundColor
+        backgroundColor: COLOR.defaultBackGroundColor
     },
     otpContainer: {
         borderRadius: 10,
@@ -112,7 +135,7 @@ const styles = StyleSheet.create({
         borderColor: COLOR.inputBorderColor,
         padding: 4,
         margin: 10,
-        backgroundColor:COLOR.inputBackGroundColor,
+        backgroundColor: COLOR.inputBackGroundColor,
         elevation: 2,
     },
     otpInput: {

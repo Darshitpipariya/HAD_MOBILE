@@ -100,6 +100,7 @@ const styles = StyleSheet.create({
         width: "85%",
     },
     passwordInput: {
+        flex:1,
         textAlign: "left",
         textAlignVertical: "center",
         paddingHorizontal: 14,

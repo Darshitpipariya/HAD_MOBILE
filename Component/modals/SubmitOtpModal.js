@@ -126,7 +126,8 @@ const styles = StyleSheet.create({
         elevation: 2,
     },
     otpInput: {
-        textAlign: "center",
+        flex:1,
+        textAlign: "center",    
         textAlignVertical: "center",
         paddingHorizontal: 5,
         paddingVertical: 4,

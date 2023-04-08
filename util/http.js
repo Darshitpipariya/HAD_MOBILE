@@ -91,7 +91,6 @@ export async function validateOtp(loginId,otp){
         console.log("Validate response "+JSON.stringify(response));
         return response;
     } catch (error) {
-        
         console.log("validateOtp ERROR"+JSON.stringify(error));
         throw error;
     }

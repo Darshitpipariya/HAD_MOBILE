@@ -32,6 +32,7 @@ const DbContextProvider = ({ children }) => {
                         setLastSyncTime(val);
                         console.log("LAST SYNC TIME : " + val);
                     }, 100)
+                    ToastAndroid.show('Synced',ToastAndroid.BOTTOM);
                 })
                 .catch((error) => { console.log(error) });
         } else {
@@ -42,7 +43,7 @@ const DbContextProvider = ({ children }) => {
                 console.log("LAST SYNC TIME : " + val);
             }, 100)
             console.log("LAST SYNC TIME : " + lastSync);
-            ToastAndroid.show("Internate is not avalible", ToastAndroid.SHORT);
+            ToastAndroid.show("Internet is not avalible", ToastAndroid.SHORT);
         }
         setTimeout(() => {
             setSyncList(true);

@@ -167,7 +167,8 @@ export async function getUpdatedFollowups(tableName) {
 }
 
 export async function insertFollowUpIntoDatabases(tableName, f) {
-
+    const mystatus = f.reasonIfDelayed===null?0:2;
+    const reasonIfDelayed = f.reasonIfDelayed === null ? '' : f.reasonIfDelayed;
     db.transaction((tx) => {
         const Query = `INSERT INTO ` + tableName + ` 
                 (
@@ -194,10 +195,11 @@ export async function insertFollowUpIntoDatabases(tableName, f) {
                     district ,
                     pincode ,
                     prescription,
-                    hrId
+                    hrId,
+                    mystatus
                 ) 
             VALUES 
-                (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) `;
+                (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) `;
         tx.executeSql(
             Query,
             [
@@ -211,7 +213,7 @@ export async function insertFollowUpIntoDatabases(tableName, f) {
                 f.fieldsValue,
                 f.observation,
                 f.secretKey,
-                f.reasonIfDelayed,
+                reasonIfDelayed,
                 f.uhId,
                 f.fname,
                 f.lname,
@@ -225,6 +227,7 @@ export async function insertFollowUpIntoDatabases(tableName, f) {
                 f.pincode,
                 f.prescription,
                 f.healthRecord.hrId,
+                mystatus,
             ],
             (tx, res) => {
                 console.log("Inserted in TABLE");
