@@ -3,8 +3,8 @@ import { color } from "react-native-reanimated";
 export const DATABASE={
     name:"FollowUp.db",
 }
-// export const BASE_URL = 'http://172.16.201.120:8081';
-export const BASE_URL = `http://172.16.133.196:8081`
+export const BASE_URL = 'http://172.16.201.120:8081';
+// export const BASE_URL = `http://172.16.133.196:8081`
 
 export const COLOR={
     inputBackGroundColor:"#faf6fd",
