@@ -1,7 +1,7 @@
 import { View, StyleSheet,ScrollView} from 'react-native'
 import React from 'react'
 import FlllowUpRow from '../Component/FollowUpRow';
-const FollowUpTable = ({ FollowUps }) => {
+const FollowUpTable = ({ FollowUps, fillUpDisabled }) => {
     
     return (
         <View style={styles.tableContainer}>
@@ -9,7 +9,7 @@ const FollowUpTable = ({ FollowUps }) => {
             {FollowUps.map((followUp) => {
                 if(followUp.status!=1)
                 {
-                    return <View key={followUp.fuId}><FlllowUpRow followUp={followUp} /></View>;
+                    return <View key={followUp.fuId}><FlllowUpRow followUp={followUp} fillUpDisabled={fillUpDisabled}/></View>;
                 }
             })}
         </ScrollView>

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 import Butten from '../Component/Butten'
 import { getOtp, validateOtp } from '../util/http';
 import { COLOR } from '../util/config';
+import ActivityLoader from '../Component/ActivityLoader';
 
 const ForgotPassword = (props) => {
 
@@ -10,6 +11,7 @@ const ForgotPassword = (props) => {
     const [username, setUsername] = useState('');
     const [visible, setVisible] = useState(false)
     const navigation = props.navigation;
+    const [isLodding,setIsLodding]=useState(false);
 
     useEffect(() => {
         setVisible(false);
@@ -22,8 +24,8 @@ const ForgotPassword = (props) => {
             alert("Enter valid username");
             setUsername('');
         } else {
+            setIsLodding(true);
             try {
-
                 const response = await getOtp(username)
                 setVisible(true);
             }
@@ -34,16 +36,20 @@ const ForgotPassword = (props) => {
                 } else {
                     msg = "Invalid username"
                 }
+                setIsLodding(false);
                 alert(msg);
             }
+            setIsLodding(false);
         }
     }
 
 
     async function submitOtp() {
+
         if (otp.trim() === '') {
             alert("Enter OTP");
         } else {
+            setIsLodding(true);
             try {
                 const response = await validateOtp(username, otp);
                 if (response.data == '0') {
@@ -69,7 +75,7 @@ const ForgotPassword = (props) => {
                     setUsername('');
                     alert(msg);
                 }
-
+                setIsLodding(false);
             } catch (error) {
                 msg = '';
                 if(error?.response){
@@ -79,21 +85,25 @@ const ForgotPassword = (props) => {
                     setUsername('');
                     alert(msg);
                 }else{
-                    msg = 'Invalid User';
+                    msg = 'Try again';
                     setVisible(false);
                     setOtp('');
                     setUsername('');
                     alert(msg);
                 }
-                
-
+                setIsLodding(false);
             }
+            setIsLodding(false);
         }
     }
 
+    if(isLodding){
+        return <ActivityLoader/>
+    }
 
 
     return (
+
         <View style={styles.mainContainer}>
 
             <View style={styles.otpContainer}>

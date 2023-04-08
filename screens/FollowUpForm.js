@@ -1,7 +1,6 @@
 import { View, Text, StyleSheet, ScrollView, TextInput } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import Butten from '../Component/Butten';
-import Fields from '../Component/Fields';
 import PendingStatusSubmit from '../Component/modals/PendingStatusSubmit';
 import SubmitOtpModal from '../Component/modals/SubmitOtpModal';
 import { Ionicons } from '@expo/vector-icons';
@@ -16,8 +15,13 @@ const FollowUpForm = ({ route }) => {
     // navigator
     const navigator = useNavigation();
     const [observation, setObservation] = useState('');
-    const [fieldList, setFieldList] = useState([]);
-    const [fieldValueList, setFieldValueList] = useState([]);
+    const [bloodSugar, setBloodSuger] = useState(route.params.followUp.bloodSugar);
+    const [bloodOxygen, setBloodOxygen] = useState(route.params.followUp.bloodOxygen);
+    const [skinColor, setSkinColor] = useState(route.params.followUp.skinColor);
+    const [eyeColor, setEyeColor] = useState(route.params.followUp.eyeColor);
+    const [temperature, setTemperature] = useState(route.params.followUp.temperature);
+    const [inflammation, setInflammation] = useState(route.params.followUp.inflammation);
+
     const [pendingModalVisible, setpendingModalVisible] = useState(false);
     const [otpModalVisible, setotpModalVisible] = useState(false);
     const { userinfo } = useContext(AuthContext);
@@ -27,29 +31,9 @@ const FollowUpForm = ({ route }) => {
     const healthWorkerName = userinfo.fname + " " + userinfo.lname;
 
     useEffect(() => {
-        getFieldList();
         console.log(JSON.stringify(route.params.followUp));
     }, [])
 
-    // create the field list from string and create value list set it to state
-    function getFieldList() {
-        const array = route.params.followUp.fields.split(",");
-        const values = [];
-        for (let i = 0; i < array.length; i++) {
-            values.push("");
-        }
-        setFieldValueList(values);
-        setFieldList(array);
-    }
-
-    // for setting the value of fleld value for field at index in fieldValueList state
-    function setFieldValue(index, value) {
-        setFieldValueList((fieldValueList) => {
-            fieldValueList[index] = value;
-            return fieldValueList;
-        });
-        console.log(fieldValueList);
-    }
 
     function alertIfFieldIsEmpty(field, value) {
         if (value.trim() === "") {
@@ -57,17 +41,24 @@ const FollowUpForm = ({ route }) => {
             return true;
         }
         return false;
+
     }
 
     function checkEmpty() {
-        for (let i = 0; i < fieldValueList.length; i++) {
-            // check if ant field is empty or not
-            if (alertIfFieldIsEmpty(fieldList[i], fieldValueList[i])) {
-                return true
-            }
+        // check if ant field is empty or not
+        if (bloodSugar !== null && alertIfFieldIsEmpty('Blood Sugar', bloodSugar)) {
+            return true
+        } else if (bloodOxygen !== null && alertIfFieldIsEmpty('Blood Oxygen', bloodOxygen)) {
+            return true
+        } else if (skinColor !== null && alertIfFieldIsEmpty('Skin Color', skinColor)) {
+            return true
+        } else if (eyeColor !== null && alertIfFieldIsEmpty('Eye Color', eyeColor)) {
+            return true
+        } else if (temperature !== null && alertIfFieldIsEmpty('Temprature', temperature)) {
+            return true
+        } else if (inflammation !== null && alertIfFieldIsEmpty('Inflammation', inflammation)) {
+            return true
         }
-        // check for obervatrion is empty or not
-        // return alertIfFieldIsEmpty("observation", observation);
         return false;
     }
 
@@ -76,8 +67,13 @@ const FollowUpForm = ({ route }) => {
         if (!checkEmpty()) {
             // Enter submit logic
             route.params.followUp.observation = observation;
-            route.params.followUp.fieldsValue = fieldValueList.join(',');
             route.params.followUp.status = 1;
+            route.params.followUp.bloodSugar = bloodSugar
+            route.params.followUp.bloodOxygen = bloodOxygen
+            route.params.followUp.eyeColor = eyeColor
+            route.params.followUp.skinColor = skinColor
+            route.params.followUp.temperature = temperature
+            route.params.followUp.inflammation = inflammation
             setotpModalVisible(true);
         }
     }
@@ -145,7 +141,6 @@ const FollowUpForm = ({ route }) => {
                                 <Text style={styles.instructionText}>{route.params.followUp.instruction}</Text>
                             </View>
                         </View>
-
                         <View style={styles.fieldContainer}>
                             <View style={styles.lableContainer}>
                                 <Text style={styles.textLable}>Prescription</Text>
@@ -155,14 +150,107 @@ const FollowUpForm = ({ route }) => {
                             </View>
                         </View>
 
-                        <Fields
-                            lableContainer={styles.lableContainer}
-                            textLable={styles.textLable}
-                            setFieldValue={setFieldValue}
-                            fieldValueList={fieldValueList}
-                            fieldList={fieldList}
-                        />
+                        {bloodSugar !== null && <View style={styles.fieldContainer}>
+                            <View style={styles.lableContainer}>
+                                <Text style={styles.textLable}>Blood Sugar</Text>
+                            </View>
+                            <View style={styles.inputContainer}>
+                                <TextInput
+                                    style={styles.input}
+                                    maxLength={16}
+                                    onChangeText={(value) => {
+                                        setBloodSuger(value)
+                                    }
+                                    }
+                                    value={bloodSugar}
+                                />
+                            </View>
+                        </View>}
 
+                        {bloodOxygen !== null && <View style={styles.fieldContainer}>
+                            <View style={styles.lableContainer}>
+                                <Text style={styles.textLable}>Blood Oxygen</Text>
+                            </View>
+                            <View style={styles.inputContainer}>
+                                <TextInput
+                                    style={styles.input}
+                                    maxLength={16}
+                                    onChangeText={(value) => {
+                                        setBloodOxygen(value)
+                                    }
+                                    }
+                                    value={bloodOxygen}
+                                />
+                            </View>
+                        </View>}
+
+                        {skinColor !== null && <View style={styles.fieldContainer}>
+                            <View style={styles.lableContainer}>
+                                <Text style={styles.textLable}>Skin Color</Text>
+                            </View>
+                            <View style={styles.inputContainer}>
+                                <TextInput
+                                    style={styles.input}
+                                    maxLength={16}
+                                    onChangeText={(value) => {
+                                        setSkinColor(value);
+                                    }
+                                    }
+                                    value={skinColor}
+                                />
+                            </View>
+                        </View>}
+
+                        {eyeColor !== null && <View style={styles.fieldContainer}>
+                            <View style={styles.lableContainer}>
+                                <Text style={styles.textLable}>Eye Color</Text>
+                            </View>
+                            <View style={styles.inputContainer}>
+                                <TextInput
+                                    style={styles.input}
+                                    maxLength={16}
+                                    onChangeText={(value) => {
+                                        setEyeColor(value)
+                                    }
+                                    }
+                                    value={eyeColor}
+                                />
+                            </View>
+                        </View>}
+
+                        {temperature !== null && <View style={styles.fieldContainer}>
+                            <View style={styles.lableContainer}>
+                                <Text style={styles.textLable}>Temperature</Text>
+                            </View>
+                            <View style={styles.inputContainer}>
+                                <TextInput
+                                    style={styles.input}
+                                    maxLength={16}
+                                    onChangeText={(value) => {
+                                        setTemperature(value);
+                                    }
+                                    }
+                                    value={temperature}
+                                />
+                            </View>
+                        </View>}
+
+                        {inflammation!==null && <View style={styles.fieldContainer}>
+                            <View style={styles.lableContainer}>
+                                <Text style={styles.textLable}>Inflammation</Text>
+                            </View>
+                            <View style={styles.inputContainer}>
+                                <TextInput
+                                    style={styles.input}
+                                    maxLength={16}
+                                    onChangeText={(value) => {
+                                        setInflammation(value);
+                                    }
+                                    }
+                                    value={inflammation}
+                                />
+                            </View>
+                        </View>}
 
                         <View style={styles.fieldContainer}>
                             <View style={styles.lableContainer}>
@@ -262,6 +350,19 @@ const styles = StyleSheet.create({
         maxWidth: "80%",
         textAlign: "justify",
 
+    },
+    inputContainer: {
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: COLOR.inputBorderColor,
+        padding: 5,
+        minWidth: "40%",
+        maxWidth: "80%",
+        backgroundColor: COLOR.inputBackGroundColor,
+        elevation: 2,
+    },
+    input: {
+        paddingHorizontal: 5,
     }
 });
 

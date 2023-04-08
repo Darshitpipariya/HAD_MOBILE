@@ -6,7 +6,7 @@ import { Month } from '../util/month';
 import { dialCall } from '../util/openDailer';
 import { Feather } from '@expo/vector-icons';
 import { COLOR } from '../util/config';
-const FollowUpRow = ({ followUp }) => {
+const FollowUpRow = ({ followUp, fillUpDisabled }) => {
 
   const navigator = useNavigation();
   let objectdate = new Date(followUp.dateOfFollowUp);
@@ -32,7 +32,7 @@ const FollowUpRow = ({ followUp }) => {
           <Text style={styles.addressText}  >{address}</Text>
         </View>
         <View style={styles.btnContainer}>
-          <Butten
+          {!fillUpDisabled && <Butten
             textstyle={styles.fillUpBtn}
 
             onPress={() => {
@@ -40,7 +40,7 @@ const FollowUpRow = ({ followUp }) => {
                 {
                   followUp: followUp,
                 })
-            }}>Fill Up</Butten>
+            }}>Fill Up</Butten>}
           <Butten onPress={() => { call() }}>
             <Feather name="phone-call" size={15} color="white" />
           </Butten>
