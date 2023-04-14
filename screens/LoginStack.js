@@ -11,7 +11,7 @@ export default function Login(props) {
     const navigation = props.navigation;
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const { login ,userTocken, isOffline } = useContext(AuthContext);
+    const { login, userTocken, isOffline } = useContext(AuthContext);
     const [errMsg, setErrorMsg] = useState('');
     const [passVisible, setPassVisible] = useState(false);
 
@@ -34,10 +34,20 @@ export default function Login(props) {
 
             if (username.trim() === "" && password.trim() === "") {
                 customToast("Username and Password is required", 1000);
+                setUsername('');
+                setPassword('');
             } else if (username.trim() === "") {
                 customToast("Username is required", 1000);
+                setUsername('');
+                setPassword('');
             } else if (password.trim() === "") {
                 customToast("Password is required", 1000);
+                setUsername('');
+                setPassword('');
+            } else if (!username.trim().startsWith("FHW")) {
+                customToast("Enter valid username", 1000);
+                setUsername('');
+                setPassword('');
             }
             else {
                 try {
@@ -69,18 +79,20 @@ export default function Login(props) {
                         placeholder="Username"
                         placeholderTextColor="#003f5c"
                         onChangeText={(username) => setUsername(username)}
+                        value={username}
                     />
                 </View>
                 <View style={styles.inputView}>
-                    <View style={{ flexDirection: "row", flex: 1, justifyContent: "space-between" ,alignItems:"center"}}>
+                    <View style={{ flexDirection: "row", flex: 1, justifyContent: "space-between", alignItems: "center" }}>
                         <TextInput
                             style={styles.TextInput}
                             placeholder="Password."
                             placeholderTextColor="#003f5c"
                             secureTextEntry={!passVisible}
                             onChangeText={(password) => setPassword(password)}
+                            value={password}
                         />
-                        <TouchableOpacity onPress={()=>{setPassVisible(!passVisible)}} style={{paddingHorizontal:10,}}>
+                        <TouchableOpacity onPress={() => { setPassVisible(!passVisible) }} style={{ paddingHorizontal: 10, }}>
                             {passVisible ? <MaterialIcons name="visibility" size={24} color="black" />
                                 : <MaterialIcons name="visibility-off" size={24} color="black" />}
                         </TouchableOpacity>
@@ -94,7 +106,7 @@ export default function Login(props) {
                 </TouchableOpacity>
 
             </View>
-            <View style={{ backgroundColor:COLOR.defaultBackGroundColor }}>
+            <View style={{ backgroundColor: COLOR.defaultBackGroundColor }}>
                 <ErrorToast msg={errMsg} visible={errMsg !== ''} />
             </View>
         </View>);
@@ -129,7 +141,7 @@ const styles = StyleSheet.create({
         alignItems: "stretch",
     },
     TextInput: {
-        flex:1,
+        flex: 1,
         padding: 10,
         marginLeft: 10,
         textAlignVertical: "center",
