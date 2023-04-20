@@ -66,14 +66,6 @@ const FollowUpForm = ({ route }) => {
     function submitFollowUps() {
         if (!checkEmpty()) {
             // Enter submit logic
-            route.params.followUp.observation = observation;
-            route.params.followUp.status = 1;
-            route.params.followUp.bloodSugar = bloodSugar
-            route.params.followUp.bloodOxygen = bloodOxygen
-            route.params.followUp.eyeColor = eyeColor
-            route.params.followUp.skinColor = skinColor
-            route.params.followUp.temperature = temperature
-            route.params.followUp.inflammation = inflammation
             setotpModalVisible(true);
         }
     }
@@ -93,7 +85,19 @@ const FollowUpForm = ({ route }) => {
     return (
         <View style={styles.mainContainer}>
             <PendingStatusSubmit openOrCloseModal={openOrClosePedingModal} followUp={route.params.followUp} visible={pendingModalVisible} />
-            <SubmitOtpModal openOrCloseModal={openOrCloseSubmitOTPModal} followUp={route.params.followUp} visible={otpModalVisible} />
+            <SubmitOtpModal
+                openOrCloseModal={openOrCloseSubmitOTPModal}
+                followUp={route.params.followUp}
+                followUpValues={{
+                    observation: observation,
+                    bloodOxygen: bloodOxygen,
+                    bloodSugar: bloodSugar,
+                    eyeColor: eyeColor,
+                    skinColor: skinColor,
+                    temperature: temperature,
+                    inflammation: inflammation
+                }}
+                visible={otpModalVisible} />
 
             <ScrollView>
                 <View style={styles.topContainer}>
@@ -235,7 +239,7 @@ const FollowUpForm = ({ route }) => {
                             </View>
                         </View>}
 
-                        {inflammation!==null && <View style={styles.fieldContainer}>
+                        {inflammation !== null && <View style={styles.fieldContainer}>
                             <View style={styles.lableContainer}>
                                 <Text style={styles.textLable}>Inflammation</Text>
                             </View>

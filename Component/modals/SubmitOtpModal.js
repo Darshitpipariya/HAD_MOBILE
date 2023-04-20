@@ -35,7 +35,13 @@ const SubmitOtpModal = (params) => {
 
             params.followUp.actualDateOfFollowUp = year + "-" + (month >= 10 ? month : ("0" + month)) + "-" + ((date < 10) ? "0" + date : date);
             params.followUp.actualTimeOfFollowUp = hr + ":" + min + ":" + sec;
-
+            params.followUp.observation = params.followUpValues.observation;
+            params.followUp.bloodSugar = params.followUpValues.bloodSugar;
+            params.followUp.bloodOxygen = params.followUpValues.bloodOxygen;
+            params.followUp.eyeColor = params.followUpValues.eyeColor;
+            params.followUp.skinColor = params.followUpValues.skinColor;
+            params.followUp.temperature = params.followUpValues.temperature;
+            params.followUp.inflammation = params.followUpValues.inflammation;
             params.followUp.status = 1;//status 1 for submitted;
             params.followUp.mystatus = 1;
             console.log(JSON.stringify(params.followUp));
